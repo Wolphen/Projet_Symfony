@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,26 +16,77 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 80)]
+    /** name **/
+    #[ORM\Column
+    (
+        length: 80
+    )
+    ]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    /** description **/
+    #[ORM\Column
+    (
+        type: Types::TEXT
+    )]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    /** image **/
+    #[ORM\Column
+    (
+        length: 255
+    )]
     private ?string $image = null;
 
+    /** price **/
     #[ORM\Column]
     private ?float $price = null;
 
+    /** quantity **/
     #[ORM\Column]
     private ?int $quantity = null;
 
+    /** actif **/
     #[ORM\Column]
     private ?bool $actif = null;
 
+    /** tva **/
     #[ORM\Column]
     private ?float $tva = null;
+
+    /** user **/
+    #[ORM\ManyToOne
+    (
+        inversedBy: 'products'
+    )]
+
+    #[ORM\JoinColumn
+    (
+        nullable: false
+    )]
+    private ?User $user = null;
+
+    /** category **/
+    #[ORM\ManyToOne
+    (
+        inversedBy: 'products'
+    )]
+    #[ORM\JoinColumn
+    (
+        nullable: false
+    )]
+    private ?Category $category = null;
+
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'product', orphanRemoval: true)]
+    private Collection $messages;
+
+    public function __construct()
+    {
+        $this->messages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +173,60 @@ class Product
     public function setTva(float $tva): static
     {
         $this->tva = $tva;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getProduct() === $this) {
+                $message->setProduct(null);
+            }
+        }
 
         return $this;
     }

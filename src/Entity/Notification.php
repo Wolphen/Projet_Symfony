@@ -13,11 +13,26 @@ class Notification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    /** title **/
+    #[ORM\Column
+    (
+        length: 255
+    )]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    /** message **/
+    #[ORM\Column
+    (
+        length: 255
+    )]
     private ?string $message = null;
+
+    #[ORM\ManyToOne(inversedBy: 'notifications')]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne]
+    private ?Product $product = null;
+
 
     public function getId(): ?int
     {
@@ -44,6 +59,30 @@ class Notification
     public function setMessage(string $message): static
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
 
         return $this;
     }
