@@ -21,14 +21,15 @@ class HomePageController extends AbstractController
     public function index(): Response
     {
         $repositoryUser = $this->entityManager->getRepository(User::class);
-        $repositoryCategory = $this->entityManager->getRepository(Category::class);
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
         $getUser = $repositoryUser->findOneById(1);
-        $getCategory = $repositoryCategory->findOneById(1);
         $getProduct = $repositoryProduct->findOneById(1);
 
 
-
+        // $category = new Category();
+        // $category->setName('Short');
+        // $this->entityManager->persist($category);
+        // $this->entityManager->flush();
 
 
         // $product = new Product();

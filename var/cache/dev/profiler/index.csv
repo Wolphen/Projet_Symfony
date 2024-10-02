@@ -48,3 +48,10 @@ a48e9e,127.0.0.1,GET,https://127.0.0.1:8000/,1727854866,,500,request
 e62d7d,127.0.0.1,GET,https://127.0.0.1:8000/,1727855639,07e494,500,request
 07e494,127.0.0.1,GET,https://127.0.0.1:8000/,1727855639,,500,request
 3c37f1,127.0.0.1,GET,https://127.0.0.1:8000/,1727855648,,200,request
+0380ad,127.0.0.1,GET,https://127.0.0.1:8000/,1727856814,,200,request
+752c21,127.0.0.1,GET,https://127.0.0.1:8000/category/Chaussure,1727857417,acf0f8,500,request
+acf0f8,127.0.0.1,GET,https://127.0.0.1:8000/category/Chaussure,1727857417,,500,request
+27d840,127.0.0.1,GET,https://127.0.0.1:8000/category/Chaussure,1727857485,b2f793,500,request
+b2f793,127.0.0.1,GET,https://127.0.0.1:8000/category/Chaussure,1727857486,,500,request
+c5e664,127.0.0.1,GET,https://127.0.0.1:8000/category/Chaussure,1727857589,e43121,500,request
+e43121,127.0.0.1,GET,https://127.0.0.1:8000/category/Chaussure,1727857589,,500,request

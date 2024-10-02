@@ -17,6 +17,8 @@ return [
     '_profiler_router' => [['token'], ['_controller' => 'web_profiler.controller.router::panelAction'], [], [['text', '/router'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::body'], [], [['text', '/exception'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
+    'app_category_search' => [['categoryName'], ['_controller' => 'App\\Controller\\CategorySearchController::index'], [], [['variable', '/', '[^/]++', 'categoryName', true], ['text', '/category']], [], [], []],
     'app_home_page' => [[], ['_controller' => 'App\\Controller\\HomePageController::index'], [], [['text', '/']], [], [], []],
+    'App\Controller\CategorySearchController::index' => [['categoryName'], ['_controller' => 'App\\Controller\\CategorySearchController::index'], [], [['variable', '/', '[^/]++', 'categoryName', true], ['text', '/category']], [], [], []],
     'App\Controller\HomePageController::index' => [[], ['_controller' => 'App\\Controller\\HomePageController::index'], [], [['text', '/']], [], [], []],
 ];
