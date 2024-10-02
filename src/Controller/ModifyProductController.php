@@ -24,6 +24,7 @@ class ModifyProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($modifiedProduct);
             $this->entityManager->flush();
+            return $this->redirectToRoute("app_your_products");
         }
 
         return $this->render('modify_product/index.html.twig', [

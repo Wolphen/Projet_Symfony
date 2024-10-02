@@ -31,6 +31,7 @@ class CreateProductController extends AbstractController
 
             $this->entityManager->persist($newProduct);
             $this->entityManager->flush();
+            return $this->redirectToRoute("app_your_products");
         }
 
         return $this->render('create_product/index.html.twig', [

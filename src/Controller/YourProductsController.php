@@ -22,14 +22,10 @@ class YourProductsController extends AbstractController
         $user = $repositoryCategory->findOneBy(['id' => $userLogged]);
         $products = $user->getProducts();
 
-        return $this->render('seller_products/index.html.twig', [
-            'controller_name' => 'SellerProductsController',
-            'products' => $products,
-            'user' => $user,
-        ]);
-
         return $this->render('your_products/index.html.twig', [
             'controller_name' => 'YourProductsController',
+            'products' => $products,
+            'user' => $user,
         ]);
     }
 }
