@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Articles de {{user.pseudo}}{% endblock %}
+{% block title %}Vos articles ({{user.pseudo}}){% endblock %}
 
 {% block body %}
-    <h1>Articles de {{user.pseudo}}</h1>
+    <h1>Vos articles ({{user.pseudo}})</h1>
 
     <a href="{{ path('app_create_product') }}">
         <button>Créer un article</button>
