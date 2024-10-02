@@ -1,0 +1,24 @@
+{# templates/chat/index.html.twig #}
+
+<h1>Chat pour le produit: {{ product.name }}</h1>
+
+<p>Propriétaire: {{ owner.pseudo }}</p>
+
+<div>
+    <h3>Messages</h3>
+    <ul>
+        {% for message in messages %}
+            <li>
+                <strong>{{ message.sender.pseudo }}:</strong> {{ message.message }}
+            </li>
+        {% else %}
+            <li>Aucun message pour ce produit.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{# Formulaire pour envoyer un message #}
+<form action="{{ path('chat_send', { 'product_id': product.id }) }}" method="post">
+    <textarea name="message" placeholder="Votre message..." required></textarea>
+    <button type="submit">Envoyer</button>
+</form>

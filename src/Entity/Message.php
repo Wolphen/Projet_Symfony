@@ -14,14 +14,6 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-
-    /** title **/
-    #[ORM\Column
-    (
-        length: 50
-    )]
-    private ?string $title = null;
-
     /** message **/
     #[ORM\Column
     (
@@ -43,18 +35,6 @@ class Message
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getMessage(): ?string
