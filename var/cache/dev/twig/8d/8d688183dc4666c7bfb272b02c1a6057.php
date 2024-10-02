@@ -503,7 +503,7 @@ class __TwigTemplate_76c3e52c563fe8aabc9bfbb3896102fb extends Template
                 // line 199
                 if (( !CoreExtension::getAttribute($this->env, $this->source, (isset($context["collector"]) || array_key_exists("collector", $context) ? $context["collector"] : (function () { throw new RuntimeError('Variable "collector" does not exist.', 199, $this->source); })()), "authenticated", [], "any", false, false, false, 199) && Twig\Extension\CoreExtension::testEmpty(CoreExtension::getAttribute($this->env, $this->source, (isset($context["collector"]) || array_key_exists("collector", $context) ? $context["collector"] : (function () { throw new RuntimeError('Variable "collector" does not exist.', 199, $this->source); })()), "roles", [], "any", false, false, false, 199)))) {
                     // line 200
-                    yield "                                            <p class=\"help\">User is not authenticated probably because they have no roles.</p>
+                    yield "                                            <p class=\"help\">UserTest is not authenticated probably because they have no roles.</p>
                                         ";
                 }
                 // line 202
@@ -1435,7 +1435,7 @@ $context["voter_detail"], "vote", [], "array", false, false, false, 483) == Twig
                                         {{ collector.roles is empty ? 'none' : profiler_dump(collector.roles, maxDepth=1) }}
 
                                         {% if not collector.authenticated and collector.roles is empty %}
-                                            <p class=\"help\">User is not authenticated probably because they have no roles.</p>
+                                            <p class=\"help\">UserTest is not authenticated probably because they have no roles.</p>
                                         {% endif %}
                                     </td>
                                 </tr>

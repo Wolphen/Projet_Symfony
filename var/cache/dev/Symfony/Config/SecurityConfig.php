@@ -125,7 +125,7 @@ class SecurityConfig implements \Symfony\Component\Config\Builder\ConfigBuilderI
     
     /**
      * @example {"memory":{"users":{"foo":{"password":"foo","roles":"ROLE_USER"},"bar":{"password":"bar","roles":"[ROLE_USER, ROLE_ADMIN]"}}}}
-     * @example {"entity":{"class":"SecurityBundle:User","property":"username"}}
+     * @example {"entity":{"class":"SecurityBundle:UserTest","property":"username"}}
     */
     public function provider(string $name, array $value = []): \Symfony\Config\Security\ProviderConfig
     {
