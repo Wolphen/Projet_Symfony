@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles de {{user.pseudo}}{% endblock %}
+
+{% block body %}
+    <h1>Articles de {{user.pseudo}}</h1>
+
+    <a href="{{ path('app_create_product') }}">
+        <button>Créer un article</button>
+    </a>
+
+    {% for product in products %}
+      <div class="product_box">
+        <img class="product_image" width="500" height="500" src={{product.image}}>
+        <div class="product_content_box">
+            <h1>{{product.name}}</h1>
+            <h2>Catégorie : {{product.category.name}}</h2>
+            <marquee>
+                {% for i in 0..10 %}
+                {{product.description}}
+                {% endfor %}
+            </marquee>
+            <p>Il en reste {{product.quantity}}</p>
+            <p>{{product.price}} €</p>
+
+            <a href="{{ path('app_modify_product', {'id': product.id }) }}">
+                <button>Modifier</button>
+            </a>
+
+            <a href="{{ path('app_delete_product', {'id': product.id }) }}">
+                <button>Supprimer</button>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

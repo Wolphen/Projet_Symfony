@@ -33,7 +33,7 @@ class HomePageController extends AbstractController
         // $this->entityManager->persist($category);
         // $this->entityManager->flush();
 
-
+        /*
         $product = new Product();
         $product->setName('Short Cars');
         $product->setDescription('Le plus beau short Cars  au monde');
@@ -46,6 +46,7 @@ class HomePageController extends AbstractController
         $product->setCategory($getCategory);
         $this->entityManager->persist($product);
         $this->entityManager->flush();
+        */
 
 
         return $this->render('home_page/index.html.twig', [

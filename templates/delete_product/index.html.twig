@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supression de {{product.name}} {% endblock %}
+
+{% block body %}
+    <h1>Supression de {{product.name}}</h1>
+    
+    {{ form(form) }}
+
+    <a href="{{ path('app_seller_products', {'id': user }) }}">
+         <button>Annuler</button>
+    </a>
+
+{% endblock %}
+
