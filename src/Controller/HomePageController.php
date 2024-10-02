@@ -9,49 +9,42 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Category;
-
-
-
+use App\Form\SearchBarType;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomePageController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $entityManager) {}
 
     #[Route('/', name: 'app_home_page')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $repositoryUser = $this->entityManager->getRepository(User::class);
+
+        $getUser = $this->getUser();
+
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
-        $repositoryCategory = $this->entityManager->getRepository(Category::class);
-        $getUser = $repositoryUser->findOneById(1);
-        $getProduct = $repositoryProduct->findOneById(1);
-        $getCategory = $repositoryCategory->findOneById(2);
 
+        $products = $repositoryProduct->findAll();
 
-        // $category = new Category();
-        // $category->setName('Short');
-        // $this->entityManager->persist($category);
-        // $this->entityManager->flush();
+        $testForm = $this->createForm(SearchBarType::class);
 
+        $parameters = $request->query->all();
+        if (!empty($parameters['search_bar']['name'])) {
+            $resultatRecherche = $parameters['search_bar']['name'];
 
-        $product = new Product();
-        $product->setName('Short Cars');
-        $product->setDescription('Le plus beau short Cars  au monde');
-        $product->setImage('https://ae-pic-a1.aliexpress-media.com/kf/Sbbc7c3e6da5242fe9dfa5d0297e2b045q.jpg_80x80.jpg_.webp');
-        $product->setPrice(29);
-        $product->setQuantity(1);
-        $product->setActif(true);
-        $product->setTva(20);
-        $product->setUser($getUser);
-        $product->setCategory($getCategory);
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
+            $products = $repositoryProduct->createQueryBuilder('parameters')
+                ->where('parameters.name LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $resultatRecherche . '%')
+                ->getQuery()
+                ->getResult();
+        }
 
 
         return $this->render('home_page/index.html.twig', [
             'controller_name' => 'HomePageController',
+            'testForm' => $testForm,
             'user' => $getUser,
-            'product' => $getProduct,
+            'products' => $products,
         ]);
     }
 }

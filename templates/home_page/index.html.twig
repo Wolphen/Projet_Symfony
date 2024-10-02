@@ -9,9 +9,16 @@
 </style>
 
 <div class="example-wrapper">
+
+   {{ form_start(testForm, {'method' : 'GET'}) }}
+     {{ form_errors(testForm) }}
+    {{ form(testForm) }} 
+
     <h1>Hello {{ user.pseudo }}! </h1>
 
-    <h3>Nom Produit : {{ product.name }} </h3>
+    {% for products in products %}
+        <h3>Nom Produit : {{ products.name }} </h3> 
+    {% endfor %}
 
 </div>
 {% endblock %}
