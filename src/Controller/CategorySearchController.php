@@ -20,10 +20,10 @@ class CategorySearchController extends AbstractController
     public function index(string $categoryName): Response
     {
         $repositoryCategory = $this->entityManager->getRepository(Category::class);
-        $repositoryCategory->findOneBy(['name' => $categoryName]);
+        $category = $repositoryCategory->findOneBy(['name' => $categoryName]);
+        $products = $category->getProducts();
 
-        $repositoryProduct = $this->entityManager->getRepository(Product::class);
-        $repositoryProduct->findBy(['category' => $repositoryCategory]);
+
 
 
 
@@ -31,7 +31,7 @@ class CategorySearchController extends AbstractController
 
         return $this->render('category_search/index.html.twig', [
             'controller_name' => 'CategorySearchController',
-            'product' => $repositoryProduct,
+            'products' => $products,
         ]);
     }
 }

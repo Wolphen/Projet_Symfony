@@ -22,8 +22,10 @@ class HomePageController extends AbstractController
     {
         $repositoryUser = $this->entityManager->getRepository(User::class);
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
+        $repositoryCategory = $this->entityManager->getRepository(Category::class);
         $getUser = $repositoryUser->findOneById(1);
         $getProduct = $repositoryProduct->findOneById(1);
+        $getCategory = $repositoryCategory->findOneById(2);
 
 
         // $category = new Category();
@@ -32,18 +34,18 @@ class HomePageController extends AbstractController
         // $this->entityManager->flush();
 
 
-        // $product = new Product();
-        // $product->setName('Crocs');
-        // $product->setDescription('Les plus belles crocs de ta vie');
-        // $product->setImage('https://ae-pic-a1.aliexpress-media.com/kf/Sbbc7c3e6da5242fe9dfa5d0297e2b045q.jpg_80x80.jpg_.webp');
-        // $product->setPrice(29);
-        // $product->setQuantity(1);
-        // $product->setActif(true);
-        // $product->setTva(20);
-        // $product->setUser($getUser);
-        // $product->setCategory($getCategory);
-        // $this->entityManager->persist($product);
-        // $this->entityManager->flush();
+        $product = new Product();
+        $product->setName('Short Cars');
+        $product->setDescription('Le plus beau short Cars  au monde');
+        $product->setImage('https://ae-pic-a1.aliexpress-media.com/kf/Sbbc7c3e6da5242fe9dfa5d0297e2b045q.jpg_80x80.jpg_.webp');
+        $product->setPrice(29);
+        $product->setQuantity(1);
+        $product->setActif(true);
+        $product->setTva(20);
+        $product->setUser($getUser);
+        $product->setCategory($getCategory);
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
 
 
         return $this->render('home_page/index.html.twig', [
