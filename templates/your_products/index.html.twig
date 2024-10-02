@@ -5,6 +5,10 @@
 {% block body %}
     <h1>Articles de {{user.pseudo}}</h1>
 
+    <a href="{{ path('app_create_product') }}">
+        <button>Créer un article</button>
+    </a>
+
     {% for product in products %}
       <div class="product_box">
         <img class="product_image" width="500" height="500" src={{product.image}}>
@@ -18,6 +22,14 @@
             </marquee>
             <p>Il en reste {{product.quantity}}</p>
             <p>{{product.price}} €</p>
+
+            <a href="{{ path('app_modify_product', {'id': product.id }) }}">
+                <button>Modifier</button>
+            </a>
+
+            <a href="{{ path('app_delete_product', {'id': product.id }) }}">
+                <button>Supprimer</button>
+            </a>
         </div>
     </div>
     {% endfor %}
