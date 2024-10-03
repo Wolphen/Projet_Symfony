@@ -15,25 +15,38 @@
         .
     {% endif %}
 
-
+    <ul>
    {% if products is not empty %}
         {% for product in products %}
-            <h3>Nom Produit : {{ product.name }} </h3> 
-             <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_home_page'}) }}">
-            <button>Ajouter en favoris</button>
-            </a>
-            <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_home_page'}) }}">
-                <button>Ajouter au panier</button>
-            </a>
-            {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('app_delete_product', {'id': product.id }) }}">
-                    <button>Supprimer</button>
+            <li>
+                <a href="{{ path('app_one_product', {'id': product.id}) }}">
+                    <h3>Nom Produit : {{ product.name }} </h3> 
                 </a>
-            {% endif %}
+                <a href="{{ path('app_seller_products', {'id': product.user.id}) }}">
+                    <p>Par {{product.user.pseudo}}</p>
+                </a>
+                <p>Description : {{ product.description }}</p>
+                <p>Prix : {{ product.price }} €</p>
+                <p>Quantité : {{ product.quantity }}</p>
+                <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 150px; height: auto;">
+                <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_one_product'}) }}">
+                    <button>Ajouter en favoris</button>
+                </a>
+                <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_home_page'}) }}">
+                    <button>Ajouter au panier</button>
+                </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_delete_product', {'id': product.id }) }}">
+                        <button>Supprimer</button>
+                    </a>
+                {% endif %}
+            </li>
+            <br>
         {% endfor %}
     {% else %}
         <p>Aucun produit.</p>
     {% endif %}
+    </ul>
 
 </div>
 {% endblock %}

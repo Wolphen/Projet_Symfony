@@ -12,7 +12,12 @@
             {% for favorite in favorites %}
                 {% set product = favorite.product %}
                 <li>
-                    <h2>{{ product.name }}</h2>
+                    <a href="{{ path('app_one_product', {'id': product.id}) }}">
+                        <h2>{{ product.name }}</h2>
+                    </a>
+                    <a href="{{ path('app_seller_products', {'id': product.user.id}) }}">
+                        <p>Par {{product.user.pseudo}}</p>
+                    </a>
                     <p>Description : {{ product.description }}</p>
                     <p>Prix : {{ product.price }} €</p>
                     <p>Quantité : {{ favorite.quantity }}</p>

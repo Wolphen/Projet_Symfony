@@ -9,6 +9,9 @@
             <img class="product_image" width="500" height="500" src={{product.image}}  alt="{{ product.name }}">
             <div class="product_content_box">
                 <h1>{{product.name}}</h1>
+                <a href="{{ path('app_seller_products', {'id': product.user.id}) }}">
+                    <p>Par {{product.user.pseudo}}</p>
+                </a>
                 <h2>Catégorie : {{product.category.name}}</h2>
                 <marquee>{{product.description}}</marquee>
                 <p>Quantité : {{product.quantity}}</p>
