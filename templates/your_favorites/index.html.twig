@@ -17,6 +17,13 @@
                     <p>Prix : {{ product.price }} €</p>
                     <p>Quantité : {{ favorite.quantity }}</p>
                     <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 150px; height: auto;">
+                    <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_your_favorites'}) }}">
+                        <button>Ajouter au panier</button>
+                    </a>
+                    <a href="{{ path('app_remove_favorite', {'id': product.id, 'route': 'app_your_favorites'}) }}">
+                        <button>Retirer des favoris</button>
+                    </a>
+
                 </li>
             {% endfor %}
         </ul>

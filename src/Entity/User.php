@@ -76,6 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $favoris;
 
     /**
+
      * @var Collection<int, Chat>
      */
     #[ORM\OneToMany(targetEntity: Chat::class, mappedBy: 'user1', orphanRemoval: true)]
@@ -86,6 +87,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'sender', orphanRemoval: true)]
     private Collection $messages2;
+      
+      /**
+     * @var Collection<int, Panier>
+     */
+    #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $paniers;
+
 
 
 
@@ -97,6 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->favoris = new ArrayCollection();
         $this->chats = new ArrayCollection();
         $this->messages2 = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -343,9 +352,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->chats->add($chat);
             $chat->setUser1($this);
         }
-
-        return $this;
+      return $this;
     }
+          
+      /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setUser($this);
+        }
+      return $this;
+    }
+  
 
     public function removeChat(Chat $chat): static
     {
@@ -383,6 +409,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($messages2->getSender() === $this) {
                 $messages2->setSender(null);
+            }
+        }
+      return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getUser() === $this) {
+                $panier->setUser(null);
             }
         }
 

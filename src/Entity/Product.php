@@ -90,16 +90,24 @@ class Product
     private Collection $favoris;
 
     /**
+
      * @var Collection<int, Chat>
      */
     #[ORM\OneToMany(targetEntity: Chat::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $chats;
+
+     * @var Collection<int, Panier>
+     */
+    #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'product', orphanRemoval: true)]
+    private Collection $paniers;
+
 
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->chats = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -276,6 +284,7 @@ class Product
     }
 
     /**
+
      * @return Collection<int, Chat>
      */
     public function getChats(): Collection
@@ -289,9 +298,29 @@ class Product
             $this->chats->add($chat);
             $chat->setProduct($this);
         }
+         return $this;
+    }
+
+  
+  
+     /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setProduct($this);
+        }
 
         return $this;
     }
+
 
     public function removeChat(Chat $chat): static
     {
@@ -299,6 +328,17 @@ class Product
             // set the owning side to null (unless already changed)
             if ($chat->getProduct() === $this) {
                 $chat->setProduct(null);
+            }
+        }
+        return $this;
+     }
+
+   public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getProduct() === $this) {
+                $panier->setProduct(null);
             }
         }
 

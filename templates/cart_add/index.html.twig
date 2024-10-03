@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout de {{product.name}} au panier<{% endblock %}
+
+{% block body %}
+    <h1>Ajout de {{product.name}} au panier</h1>
+    
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+    {{ form_end(form) }}
+
+
+    <a href="{{ path('app_home_page') }}">
+         <button>Annuler</button>
+    </a>
+
+{% endblock %}
