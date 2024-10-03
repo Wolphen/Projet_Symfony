@@ -27,6 +27,7 @@ class HomePageController extends AbstractController
         // Création du formulaire de recherche
         $testForm = $this->createForm(SearchBarType::class);
 
+
         // Gestion de la recherche par nom de produit
         $parameters = $request->query->all();
         if (!empty($parameters['search_bar']['name'])) {
