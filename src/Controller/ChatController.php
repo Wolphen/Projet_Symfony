@@ -8,6 +8,7 @@ use App\Entity\Product;
 use App\Entity\User;
 use App\Repository\ChatRepository;
 use App\Repository\MessageRepository;
+use App\Service\NotificationsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -54,7 +55,7 @@ class ChatController extends AbstractController
     }
 
     #[Route('/chat/{id}', name: 'view_chat', methods: ['GET', 'POST'])]
-    public function viewChat(int $id, Request $request, EntityManagerInterface $entityManager, UserInterface $user): Response
+    public function viewChat(int $id, Request $request, EntityManagerInterface $entityManager, UserInterface $user, NotificationsService $notificationsService): Response
     {
         $chat = $entityManager->getRepository(Chat::class)->findOneBy(['id'=>$id]);
 
@@ -78,6 +79,10 @@ class ChatController extends AbstractController
                 $entityManager->persist($message);
                 $entityManager->flush();
             }
+/*            $notificationsService->sendNotification(
+                'Message', $chat->getUser1()->getPseudo() .'vous à envoyé un message : '. $messageContent,
+                $chat->getUser2(), $chat->getProduct()
+            );*/
 
             return $this->redirectToRoute('view_chat', ['id' => $chat->getId()]);
         }
