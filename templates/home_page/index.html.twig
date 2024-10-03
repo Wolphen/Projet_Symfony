@@ -3,24 +3,7 @@
 {% block title %}Recherche Produits{% endblock %}
 
 {% block body %}
-<style>
-    .wrap-bouton {
-        margin: 1em auto;
-        max-width: 900px;
-        width: 95%;
-        font: 14px/1.5 sans-serif;
-    }
-    .bouton-category {
-        display: inline-block;
-        margin: 0.5em;
-        padding: 0.7em 1.5em;
-        background-color: white;
-        color: #333;
-        text-decoration: none;
-    }
-    .bouton-category:hover {
-        color: #ddd;
-    }
+
 </style>
 
 <div class="wrap-bouton">
@@ -31,15 +14,31 @@
    {{ form_end(testForm) }}
 
     <div class="category-buttons">
-        <a href="{{ path('app_category_search', {'categoryName': 'short'}) }}" class="bouton-category">Short</a>
-        <a href="{{ path('app_category_search', {'categoryName': 'humain'}) }}" class="bouton-category">Humain</a>
-    </div>
-    <h1>Hello {{ user.pseudo }}! </h1>
-
-
-    {% for product in products %}
-        <h3>Nom Produit : {{ product.name }} </h3> 
+    {% for category in categories %}
+        <a href="{{ path('app_category_search', {'categoryName': category.name}) }}" class="bouton-category">
+            {{ category.name | capitalize }}
+        </a>
     {% endfor %}
+</div>
+    {% if user != null %}
+        <h1>Hello {{ user.pseudo }}! </h1>
+    {% else %}
+        <h1>Bonjour<h1>
+    {% endif %}
+
+
+   {% if products is not empty %}
+        {% for product in products %}
+            <h3>Nom Produit : {{ product.name }} </h3> 
+            {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_delete_product', {'id': product.id }) }}">
+                    <button>Supprimer</button>
+                </a>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>Aucun produit.</p>
+    {% endif %}
 
 </div>
 {% endblock %}

@@ -26,7 +26,7 @@ class CreateProductType extends AbstractType
             ->add('tva', IntegerType::class)
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('actif')
             ->add("Modifier", SubmitType::class)

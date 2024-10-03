@@ -19,16 +19,22 @@ class HomePageController extends AbstractController
     #[Route('/', name: 'app_home_page')]
     public function index(Request $request): Response
     {
-        $getUser = $this->getUser();
+        $session = $request->getSession();
+
+        if ($session->has('login')) {
+            $getUser = $this->getUser();
+        } else {
+            $getUser = null;
+        }
 
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
-        $products = $repositoryProduct->findAll();  // Récupère tous les produits par défaut
+        $products = $repositoryProduct->findAll();
+        $repositoryCategory = $this->entityManager->getRepository(Category::class);
 
-        // Création du formulaire de recherche
+
         $testForm = $this->createForm(SearchBarType::class);
 
 
-        // Gestion de la recherche par nom de produit
         $parameters = $request->query->all();
         if (!empty($parameters['search_bar']['name'])) {
             $resultatRecherche = $parameters['search_bar']['name'];
@@ -41,9 +47,10 @@ class HomePageController extends AbstractController
 
         return $this->render('home_page/index.html.twig', [
             'controller_name' => 'HomePageController',
-            'testForm' => $testForm->createView(),  // Passer la vue du formulaire à Twig
+            'testForm' => $testForm->createView(),
             'user' => $getUser,
             'products' => $products,
+            'categories' => $repositoryCategory,
         ]);
     }
 
