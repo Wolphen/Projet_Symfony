@@ -4,15 +4,18 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class HeaderController extends AbstractController
 {
-    #[Route('/header', name: 'app_header')]
+    #[Route('/example', name: 'app_example')]
     public function index(): Response
     {
-        return $this->render('header/index.html.twig', [
-            'controller_name' => 'HeaderController',
+        // Définissez le contenu que vous voulez afficher dans l'en-tête
+        $headerContent = 'Bienvenue sur notre site !';
+
+        return $this->render('example/index.html.twig', [
+            'headerContent' => $headerContent,
         ]);
     }
 }
