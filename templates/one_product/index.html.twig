@@ -4,26 +4,27 @@
 
 {% block body %}
 
- {% if product is defined %}
-    <div class="product_box">
-        <img class="product_image" width="500" height="500" src={{product.image}}  alt="{{ product.name }}">
-        <div class="product_content_box">
-            <h1>{{product.name}}</h1>
-            <h2>Catégorie : {{product.category.name}}</h2>
-            <marquee>{{product.description}}</marquee>
-            <p>Quantité : {{product.quantity}}</p>
-            <p>{{product.price}} €</p>
-            <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_one_product'}) }}">
-                <button>Ajouter en favoris</button>
-            </a>
-            <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_one_product'}) }}">
-                <button>Ajouter au panier</button>
-            </a>
+    {% if product is defined %}
+        <div class="product_box">
+            <img class="product_image" width="500" height="500" src={{product.image}}  alt="{{ product.name }}">
+            <div class="product_content_box">
+                <h1>{{product.name}}</h1>
+                <h2>Catégorie : {{product.category.name}}</h2>
+                <marquee>{{product.description}}</marquee>
+                <p>Quantité : {{product.quantity}}</p>
+                <p>{{product.price}} €</p>
+                <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_one_product'}) }}">
+                    <button>Ajouter en favoris</button>
+                </a>
+                <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_one_product'}) }}">
+                    <button>Ajouter au panier</button>
+                </a>
 
 
+            </div>
         </div>
-    </div>
     {# Button to start a chat with the product owner #}
+    {% endif %}
     {% if app.user != product.user %}
         <form action="{{ path('start_chat', { id: product.id }) }}" method="POST">
             <button type="submit">Start Chat with {{ product.user.pseudo }}</button>

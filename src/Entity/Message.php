@@ -55,7 +55,7 @@ class Message
 
     public function getChat(): ?Chat
     {
-        return $this->Chat;
+        return $this->chat;
     }
 
     public function setChat(Chat $Chat): static

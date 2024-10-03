@@ -96,6 +96,7 @@ class Product
     #[ORM\OneToMany(targetEntity: Chat::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $chats;
 
+    /**
      * @var Collection<int, Panier>
      */
     #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'product', orphanRemoval: true)]
