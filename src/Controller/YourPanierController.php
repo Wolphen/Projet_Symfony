@@ -25,10 +25,32 @@ class YourPanierController extends AbstractController
         $repository = $this->entityManager->getRepository(Panier::class);
         $panier = $repository->findOneBy(['id' => $id]);
 
+        $repository = $this->entityManager->getRepository(Product::class);
+        $productAddQuantity = $repository->findOneBy(['id' => $panier->getProduct()]);
+        $productAddQuantity->setQuantity($productAddQuantity->getQuantity()+$panier->getQuantity());
+
+        $this->entityManager->persist($panier);
+
+
         if ($panier->getQuantity()-$number <= 0) {
             $this->entityManager->remove($panier);
         } else {
             $panier->setQuantity($panier->getQuantity()-$number);
+        }
+        
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_your_panier');
+    }
+
+    #[Route('/cart/buy/{id}', name: 'app_buy_cart')]
+    public function buyCart(Request $request, User $id, Security $security)
+    {
+        $repository = $this->entityManager->getRepository(Panier::class);
+        $panier = $repository->findAll(['user' => $id]);
+
+        foreach ($panier as $key => $onePanier) {
+            $this->entityManager->remove($onePanier);
         }
         
         $this->entityManager->flush();
@@ -54,9 +76,14 @@ class YourPanierController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $repository = $this->entityManager->getRepository(Product::class);
+            $productRemoveQuantity = $repository->findOneBy(['id' => $panier->getProduct()]);
+            $productRemoveQuantity->setQuantity($productRemoveQuantity->getQuantity()-$panier->getQuantity());
+
             $this->entityManager->persist($panier);
+            $this->entityManager->persist($productRemoveQuantity);
             $this->entityManager->flush();
-            return $this->redirectToRoute("app_your_products");
+            return $this->redirectToRoute("app_your_panier");
         }
 
         return $this->render('cart_add/index.html.twig', [

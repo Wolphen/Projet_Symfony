@@ -28,7 +28,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <a >
+        <a href="{{ path('app_buy_cart', {'id': user.id}) }}">
             <button>Payer pour {{totalprice}} €</button>
         </a>
     {% endif %}

@@ -35,6 +35,9 @@
              <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_home_page'}) }}">
             <button>Ajouter en favoris</button>
             </a>
+            <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_home_page'}) }}">
+                <button>Ajouter au panier</button>
+            </a>
             {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('app_delete_product', {'id': product.id }) }}">
                     <button>Supprimer</button>
