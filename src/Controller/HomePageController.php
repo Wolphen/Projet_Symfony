@@ -27,6 +27,7 @@ class HomePageController extends AbstractController
             $getUser = null;
         }
 
+
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
         $products = $repositoryProduct->findAll();
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
