@@ -9,50 +9,60 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Category;
-
-
-
+use App\Form\SearchBarType;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomePageController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $entityManager) {}
 
     #[Route('/', name: 'app_home_page')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $repositoryUser = $this->entityManager->getRepository(User::class);
+        $getUser = $this->getUser();
+
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
-        $repositoryCategory = $this->entityManager->getRepository(Category::class);
-        $getUser = $repositoryUser->findOneById(1);
-        $getProduct = $repositoryProduct->findOneById(1);
-        $getCategory = $repositoryCategory->findOneById(2);
+        $products = $repositoryProduct->findAll();  // Récupère tous les produits par défaut
+
+        // Création du formulaire de recherche
+        $testForm = $this->createForm(SearchBarType::class);
 
 
-        // $category = new Category();
-        // $category->setName('Short');
-        // $this->entityManager->persist($category);
-        // $this->entityManager->flush();
-
-        /*
-        $product = new Product();
-        $product->setName('Short Cars');
-        $product->setDescription('Le plus beau short Cars  au monde');
-        $product->setImage('https://ae-pic-a1.aliexpress-media.com/kf/Sbbc7c3e6da5242fe9dfa5d0297e2b045q.jpg_80x80.jpg_.webp');
-        $product->setPrice(29);
-        $product->setQuantity(1);
-        $product->setActif(true);
-        $product->setTva(20);
-        $product->setUser($getUser);
-        $product->setCategory($getCategory);
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
-        */
-
+        // Gestion de la recherche par nom de produit
+        $parameters = $request->query->all();
+        if (!empty($parameters['search_bar']['name'])) {
+            $resultatRecherche = $parameters['search_bar']['name'];
+            $products = $repositoryProduct->createQueryBuilder('p')
+                ->where('p.name LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $resultatRecherche . '%')
+                ->getQuery()
+                ->getResult();
+        }
 
         return $this->render('home_page/index.html.twig', [
             'controller_name' => 'HomePageController',
+            'testForm' => $testForm->createView(),  // Passer la vue du formulaire à Twig
             'user' => $getUser,
-            'product' => $getProduct,
+            'products' => $products,
+        ]);
+    }
+
+    #[Route('/category/{categoryName}', name: 'app_category_search')]
+    public function category(string $categoryName): Response
+    {
+        $repositoryCategory = $this->entityManager->getRepository(Category::class);
+        $category = $repositoryCategory->findOneBy(['name' => $categoryName]);
+
+        // Si la catégorie est trouvée, obtenir les produits associés
+        if ($category) {
+            $products = $category->getProducts();
+        } else {
+            $products = [];
+        }
+
+        return $this->render('category_search/index.html.twig', [
+            'controller_name' => 'CategorySearchController',
+            'products' => $products,
         ]);
     }
 }
