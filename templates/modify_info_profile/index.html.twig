@@ -15,7 +15,7 @@
     {{ form_errors(form) }}
     {{ form_end(form) }}
 
-    <a href="{{ path('app_profile') }}">
+    <a href="{{ path('app_profile', {'userName' : user.pseudo}) }}">
         <button>Annuler</button>
     </a>
 
