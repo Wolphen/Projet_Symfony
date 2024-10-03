@@ -29,8 +29,7 @@ class HomePageController extends AbstractController
 
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
         $products = $repositoryProduct->findAll();
-        $repositoryCategory = $this->entityManager->getRepository(Category::class);
-
+        $categories = $this->entityManager->getRepository(Category::class)->findAll();
 
         $testForm = $this->createForm(SearchBarType::class);
 
@@ -50,7 +49,7 @@ class HomePageController extends AbstractController
             'testForm' => $testForm->createView(),
             'user' => $getUser,
             'products' => $products,
-            'categories' => $repositoryCategory,
+            'categories' => $categories,
         ]);
     }
 
@@ -60,7 +59,6 @@ class HomePageController extends AbstractController
         $repositoryCategory = $this->entityManager->getRepository(Category::class);
         $category = $repositoryCategory->findOneBy(['name' => $categoryName]);
 
-        // Si la catégorie est trouvée, obtenir les produits associés
         if ($category) {
             $products = $category->getProducts();
         } else {

@@ -9,13 +9,21 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello ! ✅</h1>
 
-    {% for products in products %}
-    <div>
-        {{products.name}}
+    {% if products is not empty %}
+        {% for product in products %}
+        <div>
+            {{ product.name }}
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucun produit disponible dans cette catégorie.</p>
+    {% endif %}
+
+    {% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
     </div>
     {% endfor %}
-
 </div>
 {% endblock %}
