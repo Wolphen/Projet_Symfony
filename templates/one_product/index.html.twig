@@ -1,22 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello OneProductController!{% endblock %}
+{% block title %}Détails du produit{% endblock %}
 
 {% block body %}
 
+ {% if product is defined %}
     <div class="product_box">
-        <img class="product_image" width="500" height="500" src={{product.image}}>
+        <img class="product_image" width="500" height="500" src={{product.image}}  alt="{{ product.name }}>
         <div class="product_content_box">
             <h1>{{product.name}}</h1>
             <h2>Catégorie : {{product.category.name}}</h2>
             <marquee>{{product.description}}</marquee>
-            <p>Il en reste {{product.quantity}}</p>
+            <p>Quantité : {{product.quantity}}</p>
             <p>{{product.price}} €</p>
             <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_one_product'}) }}">
                 <button>Ajouter en favoris</button>
             </a>
+
+
         </div>
-    </div>
-    
+    {% else %}
+        <h1>Ce produit n'existe pas</h1>
+    {% endif %}
 
 {% endblock %}

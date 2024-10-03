@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Votre Profile</h1>
+    {% if user.pseudo == nom_user.pseudo %}
+    <div>
+        pseudo : {{ user.pseudo }} @
+        <br/>
+       email : {{ user.email }} ✉️
+        <br/>
+        votre budget : {{ user.wallet }} €
+        <br/>
+       nombre d'étoile : {{ user.stars }} ✨
+        <br/>
+       nombre de favori : {{ infoFavori }} 🤍
+    </div>
+    <a href="{{ path("app_modify_info_profile", {'id': user.id}) }}"><button>modifier vos informations personnel</button></a>
+
+    <a href="{{ path('app_your_products') }}"><button> page de vos produits </button></a>
+
+    <a href="{{ path('app_home_page') }}"><button> vos notification </button></a>
+
+    {% else %}
+
+    <div>
+        Vue d'un utilisateur externe
+    </div>
+        {% endif %}
+
+
+</div>
+{% endblock %}

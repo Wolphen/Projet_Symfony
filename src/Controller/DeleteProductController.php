@@ -25,7 +25,11 @@ class DeleteProductController extends AbstractController
 
             $this->entityManager->remove($id);
             $this->entityManager->flush();
-            return $this->redirectToRoute("app_your_products");
+            if ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute("app_home_page");
+            } else {
+                return $this->redirectToRoute("app_your_products");
+            }
         }
 
         return  $this->render('delete_product/index.html.twig', [
