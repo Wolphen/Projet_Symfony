@@ -89,10 +89,17 @@ class Product
     #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $favoris;
 
+    /**
+     * @var Collection<int, Chat>
+     */
+    #[ORM\OneToMany(targetEntity: Chat::class, mappedBy: 'product', orphanRemoval: true)]
+    private Collection $chats;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->chats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -262,6 +269,36 @@ class Product
             // set the owning side to null (unless already changed)
             if ($favori->getProduct() === $this) {
                 $favori->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Chat>
+     */
+    public function getChats(): Collection
+    {
+        return $this->chats;
+    }
+
+    public function addChat(Chat $chat): static
+    {
+        if (!$this->chats->contains($chat)) {
+            $this->chats->add($chat);
+            $chat->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChat(Chat $chat): static
+    {
+        if ($this->chats->removeElement($chat)) {
+            // set the owning side to null (unless already changed)
+            if ($chat->getProduct() === $this) {
+                $chat->setProduct(null);
             }
         }
 

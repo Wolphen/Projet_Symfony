@@ -14,6 +14,11 @@
             <p>{{product.price}} €</p>
         </div>
     </div>
-    
+    {# Button to start a chat with the product owner #}
+    {% if app.user != product.user %}
+        <form action="{{ path('start_chat', { id: product.id }) }}" method="POST">
+            <button type="submit">Start Chat with {{ product.user.pseudo }}</button>
+        </form>
+    {% endif %}
 
 {% endblock %}

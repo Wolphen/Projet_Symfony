@@ -75,6 +75,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $favoris;
 
+    /**
+     * @var Collection<int, Chat>
+     */
+    #[ORM\OneToMany(targetEntity: Chat::class, mappedBy: 'user1', orphanRemoval: true)]
+    private Collection $chats;
+
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'sender', orphanRemoval: true)]
+    private Collection $messages2;
+
 
 
     public function __construct()
@@ -83,6 +95,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notifications = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->chats = new ArrayCollection();
+        $this->messages2 = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -309,6 +323,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($favori->getUser() === $this) {
                 $favori->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Chat>
+     */
+    public function getChats(): Collection
+    {
+        return $this->chats;
+    }
+
+    public function addChat(Chat $chat): static
+    {
+        if (!$this->chats->contains($chat)) {
+            $this->chats->add($chat);
+            $chat->setUser1($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChat(Chat $chat): static
+    {
+        if ($this->chats->removeElement($chat)) {
+            // set the owning side to null (unless already changed)
+            if ($chat->getUser1() === $this) {
+                $chat->setUser1(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages2(): Collection
+    {
+        return $this->messages2;
+    }
+
+    public function addMessages2(Message $messages2): static
+    {
+        if (!$this->messages2->contains($messages2)) {
+            $this->messages2->add($messages2);
+            $messages2->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessages2(Message $messages2): static
+    {
+        if ($this->messages2->removeElement($messages2)) {
+            // set the owning side to null (unless already changed)
+            if ($messages2->getSender() === $this) {
+                $messages2->setSender(null);
             }
         }
 
