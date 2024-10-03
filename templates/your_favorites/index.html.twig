@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos produits favoris{% endblock %}
+
+{% block body %}
+    <h1>Vos produits favoris</h1>
+
+    {% if favorites is empty %}
+        <p>Vous n'avez aucun produit dans vos favoris.</p>
+    {% else %}
+        <ul>
+            {% for favorite in favorites %}
+                {% set product = favorite.product %}
+                <li>
+                    <h2>{{ product.name }}</h2>
+                    <p>Description : {{ product.description }}</p>
+                    <p>Prix : {{ product.price }} €</p>
+                    <p>Quantité : {{ favorite.quantity }}</p>
+                    <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 150px; height: auto;">
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

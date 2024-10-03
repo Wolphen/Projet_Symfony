@@ -25,7 +25,7 @@ class DeleteProductController extends AbstractController
 
             $this->entityManager->remove($id);
             $this->entityManager->flush();
-            return $this->redirectToRoute("app_seller_products", array('id' => $id->getUser()->getId()));
+            return $this->redirectToRoute("app_your_products");
         }
 
         return  $this->render('delete_product/index.html.twig', [

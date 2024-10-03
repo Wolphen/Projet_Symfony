@@ -83,9 +83,16 @@ class Product
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $messages;
 
+    /**
+     * @var Collection<int, Favoris>
+     */
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'product', orphanRemoval: true)]
+    private Collection $favoris;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,6 +232,36 @@ class Product
             // set the owning side to null (unless already changed)
             if ($message->getProduct() === $this) {
                 $message->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): static
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): static
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getProduct() === $this) {
+                $favori->setProduct(null);
             }
         }
 
