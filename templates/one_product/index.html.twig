@@ -12,6 +12,9 @@
             <marquee>{{product.description}}</marquee>
             <p>Il en reste {{product.quantity}}</p>
             <p>{{product.price}} €</p>
+            <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_one_product'}) }}">
+                <button>Ajouter en favoris</button>
+            </a>
         </div>
     </div>
     
