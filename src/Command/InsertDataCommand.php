@@ -74,6 +74,8 @@ class InsertDataCommand extends Command
         $progressBar->finish();
 
         // CATEGORY table insertion
+        $output->writeln("");
+        $output->writeln("");
         $io->section('TABLE CATEGORY');
         $progressBar2->start();
 
@@ -99,6 +101,8 @@ class InsertDataCommand extends Command
         $progressBar2->finish();
 
         // PRODUCT table insertion
+        $output->writeln("");
+        $output->writeln("");
         $io->section('TABLE PRODUCT');
         $progressBar3->start();
 
@@ -138,11 +142,12 @@ class InsertDataCommand extends Command
         }
         $this->entityManager->flush();
         $progressBar3->finish();
-
+        $output->writeln("");
+        $output->writeln("");
         $output->writeln('USER: <info>ok</info>');
         $output->writeln('CATEGORY: <info>ok</info>');
         $output->writeln('PRODUCTS: <info>ok</info>');
-
+        $output->writeln("");
         $io->success("FIN DE L'INSERTION !");
         return Command::SUCCESS;
     }
