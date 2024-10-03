@@ -30,7 +30,7 @@ class ModifyInfoProfileController extends AbstractController
         }
 
         return $this->render('modify_info_profile/index.html.twig', [
-           'form' => $form,
+            'form' => $form,
             'user' => $id,
         ]);
     }

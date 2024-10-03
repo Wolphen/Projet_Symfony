@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Profil{% endblock %}
 
 {% block body %}
 <style>
@@ -9,32 +9,44 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Votre Profile</h1>
     {% if user.pseudo == nom_user.pseudo %}
     <div>
-        pseudo : {{ user.pseudo }} @
+        <h1>Votre Profil</h1>
+        Pseudo : {{ user.pseudo }} @
         <br/>
-       email : {{ user.email }} ✉️
+        Email : {{ user.email }} ✉️
         <br/>
-        votre budget : {{ user.wallet }} €
+        Votre budget : {{ user.wallet }} €
         <br/>
-       nombre d'étoile : {{ user.stars }} ✨
+        Nombre d'étoiles : {{ user.stars }} ✨
         <br/>
-       nombre de favori : {{ infoFavori }} 🤍
-    </div>
-    <a href="{{ path("app_modify_info_profile", {'id': user.id}) }}"><button>modifier vos informations personnel</button></a>
+        Nombre de favoris : {{ infoFavori }} 🤍
+        <br/>
+         <a href="{{ path("app_modify_info_profile", {'id': user.id}) }}"><button>modifier vos informations personnel</button></a>
 
     <a href="{{ path('app_your_products') }}"><button> page de vos produits </button></a>
 
     <a href="{{ path('app_home_page') }}"><button> vos notification </button></a>
+        <h2>Modifier votre image de profil</h2>
+                <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePicture) }}" alt="Image de profil" width="100" height="100" >
 
-    {% else %}
-
-    <div>
-        Vue d'un utilisateur externe
+        <form method="post" enctype="multipart/form-data" action="{{ path('app_upload_profile_picture', {'id': user.id}) }}">
+            <input type="file" name="profile_picture" required>
+            <button type="submit">Upload</button>
+        </form>
     </div>
-        {% endif %}
-
-
+    {% else %}
+    <div>
+        <h1>Profil de {{ nom_user.pseudo }}</h1>
+        <img src="{{ asset('uploads/profile_pictures/' ~ nom_user.profilePicture) }}" alt="Image de profil" width="100" height="100">
+        <br/>
+        Nombre d'étoiles : {{ nom_user.stars }} ✨
+        <br/>
+        <h1>Liste des produits de {{ nom_user.pseudo }}</h1>
+        {% for product in products %}
+            {{ product.name }}
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
