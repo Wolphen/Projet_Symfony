@@ -25,6 +25,13 @@ class YourPanierController extends AbstractController
         $repository = $this->entityManager->getRepository(Panier::class);
         $panier = $repository->findOneBy(['id' => $id]);
 
+        $repository = $this->entityManager->getRepository(Product::class);
+        $productAddQuantity = $repository->findOneBy(['id' => $panier->getProduct()]);
+        $productAddQuantity->setQuantity($productAddQuantity->getQuantity()+$panier->getQuantity());
+
+        $this->entityManager->persist($panier);
+
+
         if ($panier->getQuantity()-$number <= 0) {
             $this->entityManager->remove($panier);
         } else {
@@ -69,7 +76,12 @@ class YourPanierController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $repository = $this->entityManager->getRepository(Product::class);
+            $productRemoveQuantity = $repository->findOneBy(['id' => $panier->getProduct()]);
+            $productRemoveQuantity->setQuantity($productRemoveQuantity->getQuantity()-$panier->getQuantity());
+
             $this->entityManager->persist($panier);
+            $this->entityManager->persist($productRemoveQuantity);
             $this->entityManager->flush();
             return $this->redirectToRoute("app_your_panier");
         }
