@@ -36,6 +36,21 @@ class YourPanierController extends AbstractController
         return $this->redirectToRoute('app_your_panier');
     }
 
+    #[Route('/cart/buy/{id}', name: 'app_buy_cart')]
+    public function buyCart(Request $request, User $id, Security $security)
+    {
+        $repository = $this->entityManager->getRepository(Panier::class);
+        $panier = $repository->findAll(['user' => $id]);
+
+        foreach ($panier as $key => $onePanier) {
+            $this->entityManager->remove($onePanier);
+        }
+        
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_your_panier');
+    }
+
     #[Route('/cart/add/{id}', name: 'app_add_cart')]
     public function addCart(Request $request, Product $id,Security $security)
     {
@@ -56,7 +71,7 @@ class YourPanierController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($panier);
             $this->entityManager->flush();
-            return $this->redirectToRoute("app_your_products");
+            return $this->redirectToRoute("app_your_panier");
         }
 
         return $this->render('cart_add/index.html.twig', [

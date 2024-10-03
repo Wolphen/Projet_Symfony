@@ -6,7 +6,7 @@
 
  {% if product is defined %}
     <div class="product_box">
-        <img class="product_image" width="500" height="500" src={{product.image}}  alt="{{ product.name }}>
+        <img class="product_image" width="500" height="500" src={{product.image}}  alt="{{ product.name }}">
         <div class="product_content_box">
             <h1>{{product.name}}</h1>
             <h2>Catégorie : {{product.category.name}}</h2>
@@ -15,6 +15,9 @@
             <p>{{product.price}} €</p>
             <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_one_product'}) }}">
                 <button>Ajouter en favoris</button>
+            </a>
+            <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_one_product'}) }}">
+                <button>Ajouter au panier</button>
             </a>
 
 
