@@ -1,0 +1,21 @@
+{# templates/chat/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Chat with {{ chat.receiver.pseudo == app.user.pseudo ? chat.sender.pseudo : chat.receiver.pseudo }}</h1>
+
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message">
+                <strong>{{ message.sender.pseudo }}:</strong> {{ message.message }}
+            </div>
+        {% else %}
+            <p>No messages yet.</p>
+        {% endfor %}
+    </div>
+
+    <form action="{{ path('view_chat', { id: chat.id }) }}" method="POST">
+        <textarea name="message" placeholder="Write your message here"></textarea>
+        <button type="submit">Send</button>
+    </form>
+{% endblock %}

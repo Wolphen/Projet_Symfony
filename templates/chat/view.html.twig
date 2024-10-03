@@ -1,0 +1,33 @@
+{# templates/chat/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>
+        {{ chat.product.name }}
+        <br>
+        <img class="product_image" width="500" height="500" src={{product.image}}>
+        <br>
+        {{ chat.product.price }} Krampté
+    </h1>
+    <h2>
+        Chat with
+        {% if product.user.pseudo != connectedUser.pseudo %}
+        {{ chat.user2.pseudo }}
+        {% else %}
+        {{ chat.user1.pseudo }}
+        {% endif %}
+    </h2>
+
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message">
+                <strong>{{ message.sender.pseudo }}:</strong> {{ message.message }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <form action="{{ path('view_chat', { id: chat.id }) }}" method="POST">
+        <textarea name="message" placeholder="Write your message here"></textarea>
+        <button type="submit">Send</button>
+    </form>
+{% endblock %}
