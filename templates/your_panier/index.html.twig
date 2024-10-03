@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre panier ({{user.pseudo}}){% endblock %}
+
+{% block body %}
+    <h1>Votre panier ({{user.pseudo}})</h1>
+
+    {% set totalprice = 0 %}
+
+    {% if paniers is empty %}
+        <p>Vous n'avez aucun produit dans votre panier.</p>
+    {% else %}
+        <ul>
+            {% for panier in paniers %}
+                {% set product = panier.product %}
+                {% set totalprice = totalprice + product.price * panier.quantity %}
+                <li>
+                    <h2>{{ product.name }} x{{ panier.quantity }} | {{ product.price * panier.quantity }}€</h2>
+                    <p>{{ product.description }}</p>
+                    <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 150px; height: auto;">
+                    <a href="{{ path('app_remove_cart', {'id': panier.id, 'number': 1}) }}">
+                        <button>Retirer (x1) du panier</button>
+                    </a>
+                    <a href="{{ path('app_remove_cart', {'id': panier.id, 'number': panier.quantity}) }}">
+                        <button>Retirer tout (x{{panier.quantity}}) du panier</button>
+                    </a>
+
+                </li>
+            {% endfor %}
+        </ul>
+        <a >
+            <button>Payer pour {{totalprice}} €</button>
+        </a>
+    {% endif %}
+{% endblock %}
