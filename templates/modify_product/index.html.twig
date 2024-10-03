@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification de {{product.name}} {% endblock %}
+
+{% block body %}
+    <h1>Modification de {{product.name}}</h1>
+    
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+    {{ form_end(form) }}
+
+
+    <a href="{{ path('app_your_products') }}">
+         <button>Annuler</button>
+    </a>
+
+{% endblock %}
