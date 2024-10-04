@@ -19,19 +19,12 @@ class HomePageController extends AbstractController
     #[Route('/', name: 'app_home_page')]
     public function index(Request $request): Response
     {
-        $session = $request->getSession();
-
-        if ($session->has('login')) {
-            $getUser = $this->getUser();
-        } else {
-            $getUser = null;
-        }
+        // Récupère l'utilisateur connecté ou null si personne n'est connecté
+        $getUser = $this->getUser();
 
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
         $products = $repositoryProduct->findAll();
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
-
-        $testForm = $this->createForm(SearchBarType::class);
 
 
         $parameters = $request->query->all();
@@ -46,7 +39,6 @@ class HomePageController extends AbstractController
 
         return $this->render('home_page/index.html.twig', [
             'controller_name' => 'HomePageController',
-            'testForm' => $testForm->createView(),
             'user' => $getUser,
             'products' => $products,
             'categories' => $categories,

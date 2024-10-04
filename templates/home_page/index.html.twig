@@ -2,18 +2,17 @@
 
 {% block title %}Recherche Produits{% endblock %}
 
-{% block header %} {% endblock %} 
-
 {% block body %}
 
 
 
 </div>
-    {% if user != null %}
-        <h1>Hello {{ user.pseudo }}! </h1>
-    {% else %}
-        .
-    {% endif %}
+     {% if user %}
+       <h1>Hello {{ user.pseudo }}! </h1>
+   {% else %}
+       <h1>Bonjour, visiteur! Veuillez vous connecter.</h1>
+       
+   {% endif %}
 
     <ul>
    {% if products is not empty %}
@@ -49,6 +48,7 @@
         <p>Aucun produit.</p>
     {% endif %}
     </ul>
+
 
 </div>
 {% endblock %}

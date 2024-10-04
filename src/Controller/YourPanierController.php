@@ -6,6 +6,7 @@ use App\Entity\Panier;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Form\AddToPanierType;
+use App\Service\NotificationsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -47,7 +48,7 @@ class YourPanierController extends AbstractController
     }
 
     #[Route('/cart/buy/{id}', name: 'app_buy_cart')]
-    public function buyCart(Request $request, User $id, Security $security)
+    public function buyCart(Request $request, User $id, Security $security, NotificationsService $notificationsService)
     {
         $repository = $this->entityManager->getRepository(Panier::class);
         $panier = $repository->findAll(['user' => $id]);
@@ -68,7 +69,13 @@ class YourPanierController extends AbstractController
             $this->entityManager->remove($onePanier);
             $this->entityManager->flush();
         }
-        
+
+        $notificationsService->sendNotification(
+            'VENTE','Un utilisateur a acheté votre :'. $onePanier->getProduct()->getName(),
+            $onePanier->getUser(), $onePanier->getProduct()
+        );
+        $this->entityManager->flush();
+
         return $this->redirectToRoute('app_your_panier');
     }
 

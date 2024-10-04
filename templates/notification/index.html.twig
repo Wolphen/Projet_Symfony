@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Notification{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1> Vos Notifications</h1>
+    {% if user.notifications|length > 0 %}
+        <h3>Vous avez {{ user.notifications|length }} notification(s) :</h3>
+        <ul>
+            {% for notification in user.notifications %}
+                <li>
+
+                    {{ notification.title }}
+                    <br/>
+                    {{ notification.message }} - {{ notification.createdAt|date('d/m/Y H:i') }}
+                    {% if not notification.isRead %}
+                        <a href="{{ path('app_notification_mark_as_read', {'id': notification.id}) }}">Marquer comme lue</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Vous n'avez aucune notification pour le moment.</p>
+    {% endif %}
+
+</div>
+{% endblock %}
