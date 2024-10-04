@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport de Transactions</title>
+    <style>
+        body { font-family: sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        table, th, td { border: 1px solid black; }
+        th, td { padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<h1>Rapport de Transactions pour {{ user.pseudo }}</h1>
+<p>Date: {{ "now"|date("d/m/Y") }}</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Montant</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.id }}</td>
+            <td>{{ transaction.date|date('d/m/Y') }}</td>
+            <td>{{ transaction.type }}</td>
+            {% if transaction.type == "ACHAT" %}
+            <td> - {{ transaction.montant }} €</td>
+            {% else %}
+                <td> + {{ transaction.montant }} €</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<p>Total des transactions : {{ transactions|length }}</p>
+<p>Porte Monnaie: {{ user.wallet }}</p>
+</body>
+</html>

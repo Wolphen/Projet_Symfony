@@ -26,6 +26,8 @@
     <a href="{{ path('app_your_products') }}"><button> page de vos produits </button></a>
 
     <a href="{{ path('app_home_page') }}"><button> vos notification </button></a>
+        <a href="{{ path('app_transaction_pdf') }}"><button> exporter votre porte monnaie en pdf </button></a>
+
         <h2>Modifier votre image de profil</h2>
                 <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePicture) }}" alt="Image de profil" width="100" height="100" >
 
@@ -33,6 +35,7 @@
             <input type="file" name="profile_picture" required>
             <button type="submit">Upload</button>
         </form>
+
     </div>
     {% else %}
     <div>
