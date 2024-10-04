@@ -29,7 +29,7 @@
                     <p>Prix : {{ product.price }} €</p>
                     <p>Quantité : {{ product.quantity }}</p>
                     <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 150px; height: auto;">
-                    <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_one_product'}) }}">
+                    <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_home_page'}) }}">
                         <button>Ajouter en favoris</button>
                     </a>
                     <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_home_page'}) }}">

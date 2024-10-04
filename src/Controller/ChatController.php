@@ -8,6 +8,7 @@ use App\Entity\Product;
 use App\Entity\User;
 use App\Repository\ChatRepository;
 use App\Repository\MessageRepository;
+use App\Service\ChatService;
 use App\Service\NotificationsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,37 +21,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ChatController extends AbstractController
 {
     #[Route('/product/{id}/start-chat', name: 'start_chat', methods: ['POST'])]
-    public function startChat(Product $id, EntityManagerInterface $entityManager, UserInterface $user, Security $security): Response
+    public function startChat(Product $id, EntityManagerInterface $entityManager, UserInterface $user, Security $security, ChatService $chatService): Response
     {
-        // Get the product owner
-        $product = $entityManager->getRepository(Product::class)->find($id);
-        $owner = $entityManager->getRepository(User::class)->findOneBy(['id' => $product->getUser()->getId()]);
-
-
-        $sender = $entityManager->getRepository(User::class)->find($security->getUser());
-
-
-        // Check if a chat already exists between these two users
-        $existingChat = $entityManager->getRepository(Chat::class)->findOneBy([
-            'user1' => $sender,
-            'user2' => $owner,
-        ]) ?? $entityManager->getRepository(Chat::class)->findOneBy([
-            'user1' => $owner,
-            'user2' => $sender,
-        ]);
-
-        if ($existingChat) {
-            return $this->redirectToRoute('view_chat', ['id' => $existingChat->getId()]);
-        }
-
-        // Create a new chat
-        $chat = new Chat();
-        $chat->setUser1($sender);
-        $chat->setUser2($owner);
-        $chat->setProduct($product);
-        $entityManager->persist($chat);
-        $entityManager->flush();
-
+        $chat = $chatService->startChat($id, $entityManager,$user,$security);
         return $this->redirectToRoute('view_chat', ['id' => $chat->getId()]);
     }
 

@@ -14,6 +14,15 @@
   width: auto; /* Largeur automatique pour garder les proportions */
 }
 
+
+.product_content_box {
+  background-color: gainsboro;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 32px;
+  border-radius: 50px;
+}
 /* Styles pour les boutons de la navbar */
 .navbar button {
   padding: 10px 15px; /* Espacement interne pour les boutons */
@@ -28,6 +37,7 @@
 
 .navbar button:hover {
   background-color: #0056b3; /* Couleur de fond sur hover */
+
 }
 
 /* Image de profil dans la navbar */
@@ -61,4 +71,20 @@
 .bouton-category:hover {
   background-color: #f0f0f0; /* Couleur de fond sur hover */
   color: #007bff; /* Couleur du texte sur hover */
+}
+
+.buttons {
+  margin-top: 16px;
+  padding: 10px;
+  background-color: orange;
+  border: 0px;
+  border-radius: 32px;
+}
+
+.buttons:hover {
+  margin-top: 16px;
+  padding: 10px;
+  background-color: red;
+  border: 0px;
+  border-radius: 32px;
 }

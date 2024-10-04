@@ -14,15 +14,33 @@
     </head>
     <header>
     
-        
+        <a href="{{path('app_home_page')}}">
+                <button>Accueil</button>
+            </a>
+            <a href="{{path('app_login')}}">
+                <button>Connexion</button>
+            </a>
+            <a href="{{path('app_register')}}">
+                <button>Inscription</button>
+            </a>
+            <a href="{{path('app_your_products')}}">
+                <button>Vos produits</button>
+            </a>
+            <a href="{{path('app_your_favorites')}}">
+                <button>Vos favoris</button>
+            </a>
+            <a href="{{path('app_your_panier')}}">
+                <button>Votre panier</button>
+            </a>
+          {{ render(controller(
+        'App\\Controller\\HeaderController::headerData'
+    )) }}
 
     </header>
     <body>
            
-      {{ render(controller(
-        'App\\Controller\\HeaderController::headerData'
-    )) }}
 
+            
         {% block body %}{% endblock %}
     </body>
 </html>
