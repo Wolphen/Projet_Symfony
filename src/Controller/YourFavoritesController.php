@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Favoris;
 use App\Entity\Product;
 use App\Entity\User;
+use App\Service\NotificationsService;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,11 +36,13 @@ class YourFavoritesController extends AbstractController
     }
 
     #[Route('/add_favorites/{id}', name: 'app_add_favorite')]
-    public function addFavorite(Request $request, Product $id, Security $security)
+    public function addFavorite(Request $request, Product $id, Security $security, NotificationsService $notificationsService)
     {
         $route = $request->query->get('route', 'app_home_page');
 
-        $userLogged = $security->getUser();
+        $userLogged = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $security->getUser()->getId()]); ;
+
+
 
         $favori = new Favoris();
         $favori->setUser($userLogged);
@@ -48,6 +51,10 @@ class YourFavoritesController extends AbstractController
 
         $this->entityManager->persist($favori);
         $this->entityManager->flush();
+        $notificationsService->sendNotification(
+            'Favoris', $userLogged->getPseudo() .' a mis en favoris : '. $id->getName(),
+            $id->getUser(), $id
+        );
 
         return $this->redirectToRoute($route);
     }
