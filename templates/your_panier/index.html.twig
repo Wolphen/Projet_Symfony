@@ -15,7 +15,12 @@
                 {% set product = panier.product %}
                 {% set totalprice = totalprice + product.price * panier.quantity %}
                 <li>
-                    <h2>{{ product.name }} x{{ panier.quantity }} | {{ product.price * panier.quantity }}€</h2>
+                    <a href="{{ path('app_one_product', {'id': product.id}) }}">
+                        <h2>{{ product.name }} x{{ panier.quantity }} | {{ product.price * panier.quantity }}€</h2>
+                    </a>
+                    <a href="{{ path('app_seller_products', {'id': product.user.id}) }}">
+                        <p>Par {{product.user.pseudo}}</p>
+                    </a>
                     <p>{{ product.description }}</p>
                     <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 150px; height: auto;">
                     <a href="{{ path('app_remove_cart', {'id': panier.id, 'number': 1}) }}">
@@ -28,8 +33,14 @@
                 </li>
             {% endfor %}
         </ul>
-        <a href="{{ path('app_buy_cart', {'id': user.id}) }}">
-            <button>Payer pour {{totalprice}} €</button>
-        </a>
+        <br>
+        {% if user.wallet-totalprice >= 0 %}
+            <a href="{{ path('app_buy_cart', {'id': user.id}) }}">
+                <button>Payer pour {{totalprice}} €</button>
+            </a>
+            <p>Vous avez {{user.wallet}}€. Il vous restera {{user.wallet-totalprice}}€ après achat.</p>
+        {% else %}
+            <p>Vous n'avez pas assez d'argent. Vous avez {{user.wallet}}€. Il vous manque {{user.wallet-totalprice}}€</p>
+        {% endif %}
     {% endif %}
 {% endblock %}

@@ -35,6 +35,9 @@ class YourPanierController extends AbstractController
 
         if ($panier->getQuantity()-$number <= 0) {
             $this->entityManager->remove($panier);
+            $product = $panier->getProduct();
+            $product->setActif(true);
+            $this->entityManager->persist($panier);
         } else {
             $panier->setQuantity($panier->getQuantity()-$number);
         }
@@ -51,8 +54,22 @@ class YourPanierController extends AbstractController
         $panier = $repository->findAll(['user' => $id]);
 
         foreach ($panier as $key => $onePanier) {
+            $product = $onePanier->getProduct();
+            $productPrice = $product->getPrice();
+            $panierQuantity = $onePanier->getQuantity();
+            $productOwner = $product->getUser();
+            $walletOwner = $productOwner->getWallet()+$productPrice*$panierQuantity;
+            $productOwner->setWallet($walletOwner);
+
+            $walletConnected = $id->getWallet()-$productPrice*$panierQuantity;
+            $id->setWallet($walletConnected);
+
+            $this->entityManager->persist($productOwner);
+            $this->entityManager->persist($id);
             $this->entityManager->remove($onePanier);
+            $this->entityManager->flush();
         }
+
         $notificationsService->sendNotification(
             'VENTE','Un utilisateur a acheté votre :'. $onePanier->getProduct()->getName(),
             $onePanier->getUser(), $onePanier->getProduct()
@@ -82,8 +99,13 @@ class YourPanierController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $repository = $this->entityManager->getRepository(Product::class);
             $productRemoveQuantity = $repository->findOneBy(['id' => $panier->getProduct()]);
-            $productRemoveQuantity->setQuantity($productRemoveQuantity->getQuantity()-$panier->getQuantity());
-
+            $quantity = $productRemoveQuantity->getQuantity()-$panier->getQuantity();
+            $productRemoveQuantity->setQuantity($quantity);
+            
+            if ($quantity <= 0) {
+                $productRemoveQuantity->setActif(false);
+            }
+            
             $this->entityManager->persist($panier);
             $this->entityManager->persist($productRemoveQuantity);
             $this->entityManager->flush();
