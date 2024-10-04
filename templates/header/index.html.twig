@@ -17,6 +17,9 @@
         <a href="{{ path('app_your_panier') }}">
             <button>Votre panier</button>
         </a>
+        <a href="{{ path('app_your_chats') }}">
+            <button>Vos chats</button>
+        </a>
         <a href="{{ path('app_profile', {'userName': user.pseudo}) }}">
             <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePicture) }}" alt="Image de profil" class="profile-image" />
         </a>
