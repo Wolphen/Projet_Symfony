@@ -2,38 +2,33 @@
 
 {% block title %}Recherche Produits{% endblock %}
 
-{% block header %} {% endblock %} 
-
 {% block body %}
 
 
-
-</div>
-    {% if user != null %}
-        <h1>Hello {{ user.pseudo }}! </h1>
-    {% else %}
-        .
-    {% endif %}
-
+   {% if user %}
+       <h1>Hello {{ user.pseudo }}! </h1>
+   {% else %}
+       <h1>Bonjour, visiteur! Veuillez vous connecter.</h1>
+       
+   {% endif %}
 
    {% if products is not empty %}
-        {% for product in products %}
-            <h3>Nom Produit : {{ product.name }} </h3> 
-             <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_home_page'}) }}">
-            <button>Ajouter en favoris</button>
-            </a>
-            <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_home_page'}) }}">
-                <button>Ajouter au panier</button>
-            </a>
-            {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('app_delete_product', {'id': product.id }) }}">
-                    <button>Supprimer</button>
-                </a>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        <p>Aucun produit.</p>
-    {% endif %}
-
+       {% for product in products %}
+           <h3>Nom Produit : {{ product.name }} </h3> 
+           <a href="{{ path('app_add_favorite', {'id': product.id, 'route': 'app_home_page'}) }}">
+               <button>Ajouter en favoris</button>
+           </a>
+           <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_home_page'}) }}">
+               <button>Ajouter au panier</button>
+           </a>
+           {% if is_granted('ROLE_ADMIN') %}
+               <a href="{{ path('app_delete_product', {'id': product.id }) }}">
+                   <button>Supprimer</button>
+               </a>
+           {% endif %}
+       {% endfor %}
+   {% else %}
+       <p>Aucun produit.</p>
+   {% endif %}
 </div>
 {% endblock %}
