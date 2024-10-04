@@ -22,7 +22,6 @@ class DeleteProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->entityManager->remove($id);
             $this->entityManager->flush();
             if ($this->isGranted('ROLE_ADMIN')) {
