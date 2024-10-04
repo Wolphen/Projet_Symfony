@@ -26,10 +26,9 @@ class HomePageController extends AbstractController
         $products = $repositoryProduct->findAll();
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
 
-
         $parameters = $request->query->all();
-        if (!empty($parameters['search_bar']['name'])) {
-            $resultatRecherche = $parameters['search_bar']['name'];
+        if (isset($parameters['search_bar']) && !empty($parameters['search_bar']['Recherche'])) {
+            $resultatRecherche = $parameters['search_bar']['Recherche'];
             $products = $repositoryProduct->createQueryBuilder('p')
                 ->where('p.name LIKE :searchTerm')
                 ->setParameter('searchTerm', '%' . $resultatRecherche . '%')
