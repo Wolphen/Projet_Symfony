@@ -7,6 +7,7 @@ use App\Entity\Message;
 use App\Entity\Product;
 use App\Form\OffersType;
 use App\Service\ChatService;
+use App\Service\NotificationsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,7 @@ class OffersController extends AbstractController
     }
 
     #[Route('/offers/{id}', name: 'app_offers')]
-    public function index(Product $id, Request $request, UserInterface $user, Security $security, ChatService $chatService, EntityManagerInterface $entityManager): Response
+    public function index(Product $id, Request $request, UserInterface $user, Security $security, ChatService $chatService, EntityManagerInterface $entityManager, NotificationsService $notificationsService): Response
     {
         $price = $id->getPrice();
         $minPrice = $price*0.3;
@@ -54,6 +55,10 @@ class OffersController extends AbstractController
             $message->setSender($user);
             $entityManager->persist($message);
             $entityManager->flush();
+
+            $notificationsService->sendNotification(
+                'OFFRE','Un utilisateur a propose une offre de '.$data["price"].'€ pour '.$id->getName().'.',$id->getUser(),$id
+            );
 
             return $this->redirectToRoute('view_chat', ['id' => $chat->getId()]);
             
