@@ -37,7 +37,7 @@ class ChatController extends AbstractController
 
         // Check if the current user is part of the chat
         if ($chat->getUser1() !== $user && $chat->getUser2() !== $user) {
-            throw $this->createAccessDeniedException();
+            return $this->redirectToRoute('app_home_page');
         }
 
 
