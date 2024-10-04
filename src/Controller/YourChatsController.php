@@ -16,8 +16,12 @@ class YourChatsController extends AbstractController
     #[Route('/your/chats', name: 'app_your_chats')]
     public function index(): Response
     {
+        $user = $this->getUser();
         $repositoryProduct = $this->entityManager->getRepository(Chat::class);
-        $chats = $repositoryProduct->findAll();
+        $chats = $repositoryProduct->findBy(['user1' => $user]);
+        if (!$chats){
+            $chats = $repositoryProduct->findBy(['user2' => $user]);
+        }
 
         return $this->render('your_chats/index.html.twig', [
             'controller_name' => 'YourChatsController',

@@ -21,8 +21,7 @@ class CreateProductController extends AbstractController
         $newProduct = new Product();
 
         $repositoryUser = $this->entityManager->getRepository(User::class);
-        $getUser = $repositoryUser->findOneById(1);
-
+        $getUser = $this->getUser();
         $form = $this->createForm(CreateProductType::class, $newProduct);
         $form->handleRequest($request);
 

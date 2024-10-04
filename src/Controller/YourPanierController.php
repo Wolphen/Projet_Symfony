@@ -69,15 +69,16 @@ class YourPanierController extends AbstractController
             $this->entityManager->persist($id);
             $this->entityManager->remove($onePanier);
             $this->entityManager->flush();
+            $transactionService->InsertTransaction('ACHAT', $onePanier->getUser(), $productPrice);
+            $transactionService->InsertTransaction('VENTE', $product->getUser(), $productPrice);
+
+            $notificationsService->sendNotification(
+                'VENTE',$product->getUser()->getPseudo().' a acheté votre :'. $onePanier->getProduct()->getName(),
+                $onePanier->getUser(), $onePanier->getProduct()
+            );
         }
-        $transactionService->InsertTransaction('ACHAT', $onePanier->getUser()->getPseudo(), $product->getPrice());
-        $transactionService->InsertTransaction('VENTE', $product->getUser()->getPseudo(), $product->getPrice());
 
 
-        $notificationsService->sendNotification(
-            'VENTE',$product->getUser()->getPseudo().' a acheté votre :'. $onePanier->getProduct()->getName(),
-            $onePanier->getUser(), $onePanier->getProduct()
-        );
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_your_panier');

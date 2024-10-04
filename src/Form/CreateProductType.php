@@ -29,7 +29,7 @@ class CreateProductType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('actif')
-            ->add("Modifier", SubmitType::class)
+            ->add("Creer", SubmitType::class)
         ;
     }
 
