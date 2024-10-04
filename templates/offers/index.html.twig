@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offre pour {{product.name}}{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Offre pour {{product.name}}</h1>
+    <h3>Vous ne pourrez pas proposer plus de 70% de réduction.</h3>
+    <p>Soit pas descendre en dessous de {{product.price*0.3}}€</p>
+
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+    {{ form_end(form) }}
+
+
+    <a href="{{ path('app_one_product', {'id': product.id}) }}">
+         <button>Annuler</button>
+    </a>
+
+</div>
+{% endblock %}

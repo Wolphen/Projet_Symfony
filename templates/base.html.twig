@@ -14,11 +14,7 @@
     </head>
     <header>
     
-        
-
-    </header>
-    <body>
-            <a href="{{path('app_home_page')}}">
+        <a href="{{path('app_home_page')}}">
                 <button>Accueil</button>
             </a>
             <a href="{{path('app_login')}}">
@@ -40,6 +36,10 @@
         'App\\Controller\\HeaderController::headerData'
     )) }}
 
+
+    </header>
+    <body>
+            
         {% block body %}{% endblock %}
     </body>
 </html>
