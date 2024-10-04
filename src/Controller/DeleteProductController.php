@@ -34,7 +34,7 @@ class DeleteProductController extends AbstractController
 
         return  $this->render('delete_product/index.html.twig', [
             'controller_name' => 'DeleteProductController',
-            'form' => $form,
+            'form' => $form->createView(),
             'product' => $id,
             'user' => $id->getUser()->getId(),
         ]);

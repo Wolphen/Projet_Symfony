@@ -17,23 +17,21 @@ class Product
     private ?int $id = null;
 
     /** name **/
-    #[ORM\Column
-    (
-        length: 80
-    )
+    #[
+        ORM\Column(
+            length: 80
+        )
     ]
     private ?string $name = null;
 
     /** description **/
-    #[ORM\Column
-    (
+    #[ORM\Column(
         type: Types::TEXT
     )]
     private ?string $description = null;
 
     /** image **/
-    #[ORM\Column
-    (
+    #[ORM\Column(
         length: 255
     )]
     private ?string $image = null;
@@ -55,33 +53,25 @@ class Product
     private ?float $tva = null;
 
     /** user **/
-    #[ORM\ManyToOne
-    (
+    #[ORM\ManyToOne(
         inversedBy: 'products'
     )]
 
-    #[ORM\JoinColumn
-    (
+    #[ORM\JoinColumn(
         nullable: false
     )]
     private ?User $user = null;
 
     /** category **/
-    #[ORM\ManyToOne
-    (
+    #[ORM\ManyToOne(
         inversedBy: 'products'
     )]
-    #[ORM\JoinColumn
-    (
+    #[ORM\JoinColumn(
         nullable: false
     )]
     private ?Category $category = null;
 
-    /**
-     * @var Collection<int, Message>
-     */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'product', orphanRemoval: true)]
-    private Collection $messages;
+
 
     /**
      * @var Collection<int, Favoris>
@@ -299,12 +289,12 @@ class Product
             $this->chats->add($chat);
             $chat->setProduct($this);
         }
-         return $this;
+        return $this;
     }
 
-  
-  
-     /**
+
+
+    /**
      * @return Collection<int, Panier>
      */
     public function getPaniers(): Collection
@@ -332,9 +322,9 @@ class Product
             }
         }
         return $this;
-     }
+    }
 
-   public function removePanier(Panier $panier): static
+    public function removePanier(Panier $panier): static
     {
         if ($this->paniers->removeElement($panier)) {
             // set the owning side to null (unless already changed)
