@@ -3,7 +3,7 @@
 {% block title %}Vos chats{% endblock %}
 
 {% block body %}
-
+    <h1>Vos chats</h1>
     {% for chat in chats %}
       <a href="{{ path('view_chat', {'id': chat.id }) }}">
         <button>Accéder au chat {{chat.id}}</button>
