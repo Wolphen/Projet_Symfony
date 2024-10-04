@@ -79,10 +79,18 @@ class ChatController extends AbstractController
                 $entityManager->persist($message);
                 $entityManager->flush();
             }
-/*            $notificationsService->sendNotification(
-                'Message', $chat->getUser1()->getPseudo() .'vous à envoyé un message : '. $messageContent,
-                $chat->getUser2(), $chat->getProduct()
-            );*/
+            if ($user->getUserIdentifier() == $chat->getUser2()->getEmail()) {
+                $notificationsService->sendNotification(
+                    'Message', $chat->getUser2()->getPseudo() .' vous à envoyé un message : '. $messageContent,
+                    $chat->getUser1(), $chat->getProduct()
+                );
+            }else if ($user->getUserIdentifier() == $chat->getUser1()->getEmail()) {
+                $notificationsService->sendNotification(
+                    'Message', $chat->getUser1()->getPseudo() .' vous à envoyé un message : '. $messageContent,
+                    $chat->getUser2(), $chat->getProduct()
+                );
+            }
+
 
             return $this->redirectToRoute('view_chat', ['id' => $chat->getId()]);
         }
