@@ -28,7 +28,7 @@ class OffersController extends AbstractController
     public function index(Product $id, Request $request, UserInterface $user, Security $security, ChatService $chatService, EntityManagerInterface $entityManager, NotificationsService $notificationsService): Response
     {
         $price = $id->getPrice();
-        $minPrice = $price*0.3;
+        $minPrice = floor($price * 0.3);
 
         $defaultData = ['price' => $price];
         $form = $this->createFormBuilder($defaultData)
