@@ -1,14 +1,19 @@
-body {
-  background-color: white;
+/* Style général pour la navbar */
+.navbar {
+  display: flex;
+  align-items: center; /* Aligne verticalement au centre */
+  justify-content: space-between; /* Espace entre les éléments */
+  background-color: #f5f5f5; /* Couleur de fond de la navbar */
+  padding: 10px 20px; /* Espacement autour de la navbar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour la navbar */
 }
 
-.product_box {
-  margin-top: 32px;
-  display: flex;
-  flex-direction: row;
-  width: screen;
-  justify-content: center;
+/* Logo de la navbar */
+.navbar img {
+  height: 40px; /* Hauteur fixe pour le logo */
+  width: auto; /* Largeur automatique pour garder les proportions */
 }
+
 
 .product_content_box {
   background-color: gainsboro;
@@ -18,28 +23,54 @@ body {
   padding: 32px;
   border-radius: 50px;
 }
-
-.product_image {
-  border-radius: 50px;
-  margin-right: 64px;
+/* Styles pour les boutons de la navbar */
+.navbar button {
+  padding: 10px 15px; /* Espacement interne pour les boutons */
+  margin: 0 10px; /* Espacement entre les boutons */
+  border: none; /* Pas de bordure */
+  border-radius: 5px; /* Coins arrondis */
+  background-color: #007bff; /* Couleur de fond */
+  color: white; /* Couleur du texte */
+  cursor: pointer; /* Curseur pointer sur hover */
+  transition: background-color 0.3s ease; /* Effet de transition */
 }
 
-.wrap-bouton {
-  margin: 1em auto;
-  max-width: 900px;
-  width: 95%;
-  font: 15px/1.5 sans-serif;
+.navbar button:hover {
+  background-color: #0056b3; /* Couleur de fond sur hover */
+
 }
+
+/* Image de profil dans la navbar */
+.profile-image {
+  border-radius: 50%; /* Image de profil ronde */
+  height: 40px; /* Hauteur fixe */
+  width: 40px; /* Largeur fixe */
+  object-fit: cover; /* Couvre l'espace tout en gardant les proportions */
+}
+
+/* Container pour les boutons de catégorie sous la navbar */
+.category-buttons {
+  display: flex; /* Flex pour aligner horizontalement */
+  flex-wrap: wrap; /* Permet le passage à la ligne */
+  justify-content: center; /* Centre les boutons */
+  margin-top: 10px; /* Espacement au-dessus des boutons de catégorie */
+}
+
 .bouton-category {
   display: inline-block;
-
-  padding: 0.7em 0.5em;
-  background-color: white;
-  color: #333;
-  text-decoration: none;
+  padding: 10px 15px; /* Espacement interne pour les boutons de catégorie */
+  margin: 5px; /* Espacement entre les boutons de catégorie */
+  background-color: white; /* Couleur de fond */
+  color: #333; /* Couleur du texte */
+  text-decoration: none; /* Pas de soulignement */
+  border: 1px solid #ccc; /* Bordure légère */
+  border-radius: 5px; /* Coins arrondis */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Effet de transition */
 }
+
 .bouton-category:hover {
-  color: #ddd;
+  background-color: #f0f0f0; /* Couleur de fond sur hover */
+  color: #007bff; /* Couleur du texte sur hover */
 }
 
 .buttons {

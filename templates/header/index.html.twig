@@ -1,24 +1,42 @@
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="navbar">
+    <a href="{{ path('app_home_page') }}">
+        <img src="{{ asset('uploads/profile_pictures/kramptech.png') }}" alt="Logo" />
+    </a>
 
-  <div class="example-wrapper">
-    <div class="wrap-bouton">
-        {{ form_start(testForm, {'method': 'GET', action: '/' }) }}
-        {{ form_row(testForm.name) }} {# Assurez-vous que le champ est bien affiché #}
-        <button type="submit">Rechercher</button>
-        {{ form_end(testForm) }}
-        <a href="{{ path('app_login') }}">Se connecter</a>
-        <a href="{{ path('app_logout') }}">Logout</a>
+    {{ form_start(testForm, {'method': 'GET', action: '/' }) }}
+    {{ form_row(testForm.Recherche) }}
+    {{ form_end(testForm) }}
 
-        <div class="category-buttons">
-        {% for category in categories %}
-            <a href="{{ path('app_category_search', {'categoryName': category.name}) }}" class="bouton-category">
-                {{ category.name | capitalize }}
-            </a>
-        {% endfor %}
-    </div>
-    </div>
-{% endblock %}
+    {% if user %}
+        <a href="{{ path('app_your_products') }}">
+            <button>Vos produits</button>
+        </a>
+        <a href="{{ path('app_your_favorites') }}">
+            <button>Vos favoris</button>
+        </a>
+        <a href="{{ path('app_your_panier') }}">
+            <button>Votre panier</button>
+        </a>
+        <a href="{{ path('app_profile', {'userName': user.pseudo}) }}">
+            <img src="{{ asset('uploads/profile_pictures/' ~ user.profilePicture) }}" alt="Image de profil" class="profile-image" />
+        </a>
+        <a href="{{ path('app_logout') }}">
+            <button>Déconnexion</button>
+        </a>
+    {% else %}
+        <a href="{{ path('app_login') }}">
+            <button>Connexion</button>
+        </a>
+        <a href="{{ path('app_register') }}">
+            <button>Inscription</button>
+        </a>
+    {% endif %}
+</div>
+
+<div class="category-buttons">
+    {% for category in categories %}
+        <a href="{{ path('app_category_search', {'categoryName': category.name}) }}" class="bouton-category">
+            {{ category.name | capitalize }}
+        </a>
+    {% endfor %}
+</div>

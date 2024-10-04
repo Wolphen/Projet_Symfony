@@ -87,15 +87,25 @@ class ProfileController extends AbstractController
             $allowedMimeTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
 
             if (in_array($file->getMimeType(), $allowedMimeTypes)) {
-                // Le fichier est valide et accepté
-                $filename = uniqid() . '.' . $file->guessExtension();
-                $file->move($this->getParameter('profile_pictures_directory'), $filename);
+                // Générer le nom de fichier basé sur l'ID de l'utilisateur
+                $filename = $user->getId() . '.' . $file->guessExtension();
 
-                $user->setProfilePicture($filename);
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
+                // Déplacer le fichier vers le répertoire approprié
+                try {
+                    $file->move(
+                        $this->getParameter('profile_pictures_directory'),
+                        $filename
+                    );
 
-                $this->addFlash('success', 'Image uploadée avec succès.');
+                    // Mettre à jour le chemin de l'image dans la base de données
+                    $user->setProfilePicture($filename);
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
+
+                    $this->addFlash('success', 'Image uploadée avec succès.');
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Erreur lors du téléchargement de l\'image.');
+                }
             } else {
                 $this->addFlash('error', 'Type de fichier non supporté. Veuillez uploader une image PNG, JPEG ou GIF.');
             }

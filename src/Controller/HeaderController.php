@@ -17,6 +17,8 @@ class HeaderController extends AbstractController
 
     public function headerData(): Response
     {
+        $getUser = $this->getUser();
+
         $repositoryProduct = $this->entityManager->getRepository(Product::class);
         $products = $repositoryProduct->findAll();
         $testForm = $this->createForm(SearchBarType::class);
@@ -26,6 +28,7 @@ class HeaderController extends AbstractController
             'products' => $products,
             'testForm' => $testForm,
             'categories' => $categories,
+            'user' => $getUser,
 
         ]);
     }
