@@ -34,8 +34,13 @@
             {% endfor %}
         </ul>
         <br>
-        <a href="{{ path('app_buy_cart', {'id': user.id}) }}">
-            <button>Payer pour {{totalprice}} €</button>
-        </a>
+        {% if user.wallet-totalprice >= 0 %}
+            <a href="{{ path('app_buy_cart', {'id': user.id}) }}">
+                <button>Payer pour {{totalprice}} €</button>
+            </a>
+            <p>Vous avez {{user.wallet}}€. Il vous restera {{user.wallet-totalprice}}€ après achat.</p>
+        {% else %}
+            <p>Vous n'avez pas assez d'argent. Vous avez {{user.wallet}}€. Il vous manque {{user.wallet-totalprice}}€</p>
+        {% endif %}
     {% endif %}
 {% endblock %}

@@ -50,11 +50,22 @@ class YourPanierController extends AbstractController
         $panier = $repository->findAll(['user' => $id]);
 
         foreach ($panier as $key => $onePanier) {
+            $product = $onePanier->getProduct();
+            $productPrice = $product->getPrice();
+            $panierQuantity = $onePanier->getQuantity();
+            $productOwner = $product->getUser();
+            $walletOwner = $productOwner->getWallet()+$productPrice*$panierQuantity;
+            $productOwner->setWallet($walletOwner);
+
+            $walletConnected = $id->getWallet()-$productPrice*$panierQuantity;
+            $id->setWallet($walletConnected);
+
+            $this->entityManager->persist($productOwner);
+            $this->entityManager->persist($id);
             $this->entityManager->remove($onePanier);
+            $this->entityManager->flush();
         }
         
-        $this->entityManager->flush();
-
         return $this->redirectToRoute('app_your_panier');
     }
 
