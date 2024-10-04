@@ -11,25 +11,27 @@
         <ul>
             {% for favorite in favorites %}
                 {% set product = favorite.product %}
-                <li>
-                    <a href="{{ path('app_one_product', {'id': product.id}) }}">
-                        <h2>{{ product.name }}</h2>
-                    </a>
-                    <a href="{{ path('app_seller_products', {'id': product.user.id}) }}">
-                        <p>Par {{product.user.pseudo}}</p>
-                    </a>
-                    <p>Description : {{ product.description }}</p>
-                    <p>Prix : {{ product.price }} €</p>
-                    <p>Quantité : {{ favorite.quantity }}</p>
-                    <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 150px; height: auto;">
-                    <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_your_favorites'}) }}">
-                        <button>Ajouter au panier</button>
-                    </a>
-                    <a href="{{ path('app_remove_favorite', {'id': product.id, 'route': 'app_your_favorites'}) }}">
-                        <button>Retirer des favoris</button>
-                    </a>
+                    {% if product.actif == true %}
+                    <li>
+                        <a href="{{ path('app_one_product', {'id': product.id}) }}">
+                            <h2>{{ product.name }}</h2>
+                        </a>
+                        <a href="{{ path('app_seller_products', {'id': product.user.id}) }}">
+                            <p>Par {{product.user.pseudo}}</p>
+                        </a>
+                        <p>Description : {{ product.description }}</p>
+                        <p>Prix : {{ product.price }} €</p>
+                        <p>Quantité : {{ favorite.quantity }}</p>
+                        <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 150px; height: auto;">
+                        <a href="{{ path('app_add_cart', {'id': product.id, 'route': 'app_your_favorites'}) }}">
+                            <button>Ajouter au panier</button>
+                        </a>
+                        <a href="{{ path('app_remove_favorite', {'id': product.id, 'route': 'app_your_favorites'}) }}">
+                            <button>Retirer des favoris</button>
+                        </a>
 
-                </li>
+                    </li>
+                    {% endif %}
             {% endfor %}
         </ul>
     {% endif %}
